@@ -4,7 +4,7 @@ using namespace std;
 string text;
 string key;
 
-void exitPrompt();
+string userInput();
 
 void uppercase(string& text, string& key);
 
@@ -12,12 +12,11 @@ string encryption(string& text, string& key);
 
 string decryption(string text, string key);
 
-string userInput();
+void exitPrompt();
 
 int main()
 {
-	int choice = 0;
-	string quiting;
+	int choice;
 
 	do
 	{
@@ -35,14 +34,14 @@ int main()
 			cout << "\nEncryption" << "\n-----------";
 			userInput();
 
-			cout << encryption(text, key) << endl;
+			cout <<"Encrypted text: "<< encryption(text, key) << endl;
 
 		}
 		else if (choice == 2) {
 			cout << "\nDecryption" << "\n-----------";
 			userInput();
 
-			cout << decryption(text, key) << endl;
+			cout <<"Decrypted text: "<< decryption(text, key) << endl;
 		}
 		else if (choice == 3)
 		{
@@ -57,21 +56,20 @@ int main()
 	} while (choice != 3);
 }
 
-void exitPrompt()
-{
-	string quiting;
+string userInput() {
 
-	cout << "\nAre you sure you want to exit the program?\n"
-		<< "Type yes to exit or no to stay\n";
-	cin >> quiting;
-	if (quiting == "yes" || quiting == "YES")
-	{
-		cout << "\nSee you later Alligator\n\n";
-	}
-	else if (quiting == "no" || quiting == "NO")
-		main();
-	else
-		cout << "\t\nError, neither yes or no, exiting program now\n\n\n";
+	//ask for user plaintext and key
+	cout << "\nProvide a text and key without spacing, special characters, or numbers.\n";
+	cout << "\nEnter a text: ";
+	cin >> text;
+
+	cout << "Enter a key: ";
+	cin >> key;
+
+	//uppercase inputted data			
+	uppercase(text, key);
+
+	return text, key;
 }
 
 void uppercase(string& text, string& key) {
@@ -96,8 +94,6 @@ string encryption(string& text, string& key)
 		for (int j = 0; j < key.length(); j++, i++) {
 			result += char((int(text[i] + key[j])) % 26 + 'A');
 
-			cout << text[i] << " " << int(text[i]) << " " << key[j] << endl;
-
 			if (result.length() == text.length())
 				break;
 		}
@@ -117,8 +113,6 @@ string decryption(string text, string key)
 		for (int j = 0; j < key.length(); j++, i++) {
 			result += char((int(text[i] - key[j]) + 26) % 26 + 65);
 
-			cout << int(text[i]) << " " << text[i] << " " << key[j] << endl;
-
 			if (result.length() == text.length())
 				break;
 		}
@@ -128,17 +122,19 @@ string decryption(string text, string key)
 	return result;
 }
 
-string userInput() {
+void exitPrompt()
+{
+	string quiting;
 
-	//ask for user plaintext and key
-	cout << "\nEnter a plaintext: ";
-	cin >> text;
-
-	cout << "Enter a key: ";
-	cin >> key;
-
-	//uppercase inputted data			//figure out how to disclude option if uppercase already exists
-	uppercase(text, key);
-
-	return text, key;
+	cout << "\nAre you sure you want to exit the program?\n"
+		<< "Type yes to exit or no to stay\n";
+	cin >> quiting;
+	if (quiting == "yes" || quiting == "YES")
+	{
+		cout << "\nSee you later Alligator\n\n";
+	}
+	else if (quiting == "no" || quiting == "NO")
+		main();
+	else
+		cout << "\t\nError, neither yes or no, exiting program now\n\n\n";
 }
